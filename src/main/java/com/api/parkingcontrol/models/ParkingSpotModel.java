@@ -1,44 +1,57 @@
 package com.api.parkingcontrol.models;
 
-import javax.persistence.*;
+import com.api.parkingcontrol.utils.Indices;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.elasticsearch.annotations.*;
+
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.UUID;
 
-@Entity
-@Table(name = "TB_PARKING_SPOT")
+
+@Document(indexName = Indices.PARKING_SPOT_INDEX)
+@Setting(settingPath = "static/es-settings.json")
 public class ParkingSpotModel implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @Column(name = "ID_PARKING_SPOT")
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private UUID id;
-    @Column(nullable = false, unique = true, length = 10)
+    @Field(type= FieldType.Keyword)
+    private String id = UUID.randomUUID().toString();
+
+    @Field(type= FieldType.Text)
     private String parkingSpotNumber;
-    @Column(nullable = false, unique = true, length = 7)
+
+    @Field(type= FieldType.Text)
     private String licensePlateCar;
-    @Column(nullable = false, length = 70)
+
+    @Field(type= FieldType.Text)
     private String brandCar;
-    @Column(nullable = false, length = 70)
+
+    @Field(type= FieldType.Text)
     private String modelCar;
-    @Column(nullable = false, length = 70)
+
+    @Field(type= FieldType.Text)
     private String colorCar;
-    @Column(nullable = false)
+
+    @Field(type = FieldType.Date, format = DateFormat.date_hour_minute_second)
     private LocalDateTime registrationDate;
-    @Column(nullable = false, length = 130)
+
+    @Field(type= FieldType.Text)
     private String responsibleName;
-    @Column(nullable = false, length = 30)
+
+    @Field(type= FieldType.Text)
     private String apartment;
-    @Column(nullable = false, length = 30)
+
+    @Field(type= FieldType.Text)
     private String block;
 
 
-    public UUID getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(UUID id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -82,7 +95,7 @@ public class ParkingSpotModel implements Serializable {
         this.colorCar = colorCar;
     }
 
-    public LocalDateTime getRegistrationDate() {
+    public LocalDateTime  getRegistrationDate() {
         return registrationDate;
     }
 

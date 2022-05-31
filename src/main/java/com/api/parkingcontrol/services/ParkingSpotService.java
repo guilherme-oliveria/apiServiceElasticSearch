@@ -2,6 +2,7 @@ package com.api.parkingcontrol.services;
 
 import com.api.parkingcontrol.models.ParkingSpotModel;
 import com.api.parkingcontrol.repositories.IParkingSpotRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -11,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -20,6 +22,7 @@ public class ParkingSpotService implements IParkingSpotService{
 
     final IParkingSpotRepository parkingSpotRepository;
 
+    @Autowired
     public ParkingSpotService(IParkingSpotRepository parkingcontrol){
         this.parkingSpotRepository = parkingcontrol;
     }
@@ -29,6 +32,8 @@ public class ParkingSpotService implements IParkingSpotService{
 
 
         parkingSpotModel.setRegistrationDate(LocalDateTime.now(ZoneId.of("UTC")));
+//        parkingSpotModel.setRegistrationDate(new Date());
+
         return parkingSpotRepository.save(parkingSpotModel);
     }
 
@@ -56,7 +61,7 @@ public class ParkingSpotService implements IParkingSpotService{
     }
 
     public List<ParkingSpotModel> findAll() {
-        return parkingSpotRepository.findAll();
+        return (List<ParkingSpotModel>) parkingSpotRepository.findAll();
     }
 
 
